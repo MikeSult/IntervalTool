@@ -1,0 +1,92 @@
+<html>
+<head>
+<titleInterval Tool
+</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://www.guitarland.com/javascripts/Tone.js"></script>
+
+
+<style>
+html {
+    font-size: 16px;
+}
+body {
+    margin-left: 40px; 
+    width: 90%; 
+    margin: 0 auto; 
+    max-width: 1280px; 
+    min-width: 480px;    
+    background-color: #ffffff;
+    padding: 0 20px 20px 20px;
+    font-size: 1.2em;
+
+}
+
+</style>
+</head>
+<body>
+<h1>Interval Tool</h1>
+<p>This page can be used in two different ways.</p>
+<p>!. Enter two letter names and choose a direction (up or down), then click 'calcuation Interval' button (the interval name will be calculated).</p>
+<p>2. Enter the first note, an interval name and direction then click 'calculate interval' button (the second note will be calculated).<p>
+<p>Use Capital letters for note letter names, use # (hashtag) for sharps, and use b (lowercase B) for flats (i.e. A, Bb, C#, etc.). Try to avoid using double sharps (x) and double flats (bb) if possible.  NOTE: some letter combinations are overly confusing and should not be used (i.e. Cx to Fb). Instead it should be rewritten as (D to Fb) or (Cx to E).  But even better, for these tones, the most normal choice of letter names is (D to E).  Simple is good, no need to over complicate things if you don't have to.</p>  
+<p>For interval names use the following prefix abbreviations.</p>
+<ul>
+<li>P = Perfect (i.e. P5)
+</li>
+<li>ma = major (ma3)
+</li>
+<li>mi = minor (i.e. mi3)
+</li>
+<li>dim = diminished (i.e. dim7)
+</li>
+<li>aug = augmented (i.e. aug2)
+</li>
+</ul>
+
+<form id='myForm' name='myForm'>
+<label for='note1'>note1:</label>
+<input type='text' id='note1' name='note1' size=5>
+<label for='note2'>note2:</label>
+<input type='text' id='note2' name='note2' size=5>
+<label for='direction'>direction:</label>
+<select id='direction' name='direction'>
+<option value='up'>up</option>
+<option value='down'>down</option>
+</select>
+<input type='checkbox' id='retain_interval_name' name='retain_interval_name'>
+<label for='retain_interval_name'> retain interval name</label>
+<br>
+<label for='intervalName'>
+Interval Name:</label><input type='text' id='intervalName' name='intervalName' size=10>
+<br>
+<input type='button' id='calcInterval' name='calcInterval' value='calculate interval'>
+<input type='button' id='clear' name='clear' value='clear'>
+
+<span id='playIntervalCode' name='playIntervalCode'>
+<input type='button' id='playtheNotes' name='playtheNotes' value='Play' onclick='playNotes(this)'> 
+</span>
+<input type='hidden' id='notes'>
+
+</form>
+<!-- Canvas where the notation is displayed -->
+<canvas id="myCanvas" width="350" height="120"
+style="border:1px solid #d3d3d3;">
+Your browser does not support the canvas element.
+</canvas><br />
+
+
+<script src='IntervalTool.js'></script>
+<script type="text/javascript" src="https://www.guitarland.com/javascripts/musicNotationCanvas.js"></script> 
+<!--
+<script type="text/javascript" src="file://localhost/Users/michaelsult1/Documents/Github/musicNotationCanvas/musicNotationCanvas.js"></script>
+-->
+
+<script>
+const Notation = new MusicNotation();
+</script>
+</body>
+</html>
