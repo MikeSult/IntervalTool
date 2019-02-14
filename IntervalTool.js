@@ -1,11 +1,12 @@
 // intervalTool.js
 // three fields:  first note, second note, interval name.  
 // enter any two fields and the third is auto-calculated.  
-// if both the note fields a set and the interval name is changed
+// if both the note fields are set and the interval name is changed
 // then the first note is retained and the second note is changed 
-// to correct note for the interval name.
+// to the correct note for the interval name.
 
 
+var interval_message = '';
 
 var intervalNamesToHalfSteps = {
   'P1': 0, 'dim2': 0, 'aug1': 1, 'mi2': 1, 'ma2': 2, 'dim3': 2, 'aug2': 3, 'mi3': 3, 
@@ -115,7 +116,7 @@ function calcIntervalNumber(note1, note2, direction) {
     } else if(theDirection === 'down' && index1 < index2) {
 	    index1 += 7;       
     }
-    console.log('index1='+index1+' index2='+index2);
+//    console.log('index1='+index1+' index2='+index2);
     return Math.abs(index2-index1)+1;
 }
 
@@ -143,13 +144,16 @@ function calcSecondIntervalNote(intervalName, note1, direction) {
     if(note2Index < 0) note2Index += 7;
 
     var correctLetterNote2 = alpha[note2Index];
-//    console.log('correctLetterNote2'+correctLetterNote2+' note2Numeric='+note2Numeric);
+    interval_message += "<br>- The correct letter for the second note of this interval is "+correctLetterNote2+"."
     var note2Candidates = numericToNote[note2Numeric];
+    interval_message += "<br>- The interval has "+halfSteps+" half step";
+    if(halfSteps > 1) { interval_message += 's.'; }
+    interval_message += "<br>- The possible names for this half step distance are "+note2Candidates[0]+", "+note2Candidates[1]+", and "+note2Candidates[2]+".";
 
     var note2 = (note2Candidates[0].includes(correctLetterNote2))? note2Candidates[0]: note2Candidates[1];
     if( note2.includes(correctLetterNote2) != true)
         note2 = note2Candidates[2];
-
+    interval_message += " so...<br><b>"+note2+"</b> (it has the correct letter name)."
     return note2;
 }
 
@@ -159,15 +163,17 @@ function calcIntervalName(note1, note2, direction) {
     if(halfSteps == 11 && intervalNum == 1) {
         intervalNum = 8;
     }
-    console.log('halfSteps='+halfSteps+' intervalNum='+intervalNum);
     var intervalNameCandidates = halfStepsToIntervalName[halfSteps];
     var intervalName = intervalNameCandidates[0].includes(intervalNum) ? intervalNameCandidates[0]: intervalNameCandidates[1];
     if(intervalName.includes(intervalNum) !== true) {
         alert('Interval Tool says: \nnote 2 name is too weird to be used with note 1, try renaming note 2 (or rename note 1)');
         return '';
     }
-//    console.log('direction='+direction+' halfSteps ='+ halfSteps +' intervalNum='+ intervalNum +
-//    ' intervalNameCandidates='+intervalNameCandidates+' intervalNameCandidates[0]'+intervalNameCandidates[0]+ intervalNameCandidates[0].includes(intervalNum)); 
+    interval_message += '<br>- This interval has '+halfSteps+' half step';
+    if(halfSteps > 1) { interval_message += 's.'; }
+    interval_message += "<br>- The interval number is "+intervalNum+".";
+    interval_message += "<br>- The interval name choices for this size of half steps are "+intervalNameCandidates[0]+" and "+intervalNameCandidates[1]+".";
+    interval_message += " so... <br><b>"+intervalName+"</b> (it has the correct interval number).";
     return intervalName;
 }
 
@@ -228,6 +234,7 @@ function updateDisplay() {
         alert('Interval Tool says: Not enough input.  \nYou need to enter note 1 AND either note2 or an interval name');
     }
     var direction = getDirection();
+    interval_message = 'The reasoning for this answer:';
     if(second_note === '' && first_note !== '' && interval_name !== '') {
         second_note = calcSecondIntervalNote(interval_name, first_note, direction);
         document.getElementById('note2').value = second_note;
@@ -240,13 +247,13 @@ function updateDisplay() {
     var octaveNums = calcOctaveNumbers(first_note, second_note, direction)
     interval.push(first_note + octaveNums[0]);
     interval.push(second_note + octaveNums[1]);
-    console.log('interval='+interval);
     Notation.clearCanvas();
     Notation.drawTheStaff(250);
     Notation.drawClef('treble');
     Notation.drawScale(interval);
     document.getElementById('notes').value = interval.toString();
     document.getElementById('playIntervalCode').style.display='inline';
+    document.getElementById('interval_message').innerHTML = interval_message;
 }
 
 function clearNote2() {

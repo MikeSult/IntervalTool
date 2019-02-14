@@ -20,19 +20,48 @@ body {
     max-width: 1280px; 
     min-width: 480px;    
     background-color: #ffffff;
-    padding: 0 20px 20px 20px;
+    padding: 0 10px 10px 10px;
     font-size: 1.2em;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 2px;
+  background-color: #ffffff;
+  padding: 2px;
+}
 
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: left;
+  padding: 2px 0;
+}
+
+.full {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+.left {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+.right {
+  grid-column-start: 2;
+  grid-column-end: 3;
 }
 
 </style>
 </head>
 <body>
+<div class="grid-container">
+<div class="full">
 <h1>Interval Tool</h1>
 <p>This page can be used in two different ways.</p>
 <p>!. Enter two letter names and choose a direction (up or down), then click 'calcuation Interval' button (the interval name will be calculated).</p>
 <p>2. Enter the first note, an interval name and direction then click 'calculate interval' button (the second note will be calculated).<p>
 <p>Use Capital letters for note letter names, use # (hashtag) for sharps, and use b (lowercase B) for flats (i.e. A, Bb, C#, etc.). Try to avoid using double sharps (x) and double flats (bb) if possible.  NOTE: some letter combinations are overly confusing and should not be used (i.e. Cx to Fb). Instead it should be rewritten as (D to Fb) or (Cx to E).  But even better, for these tones, the most normal choice of letter names is (D to E).  Simple is good, no need to over complicate things if you don't have to.</p>  
+</div>
+<div class="left">
 <p>For interval names use the following prefix abbreviations.</p>
 <ul>
 <li>P = Perfect (i.e. P5)
@@ -46,7 +75,15 @@ body {
 <li>aug = augmented (i.e. aug2)
 </li>
 </ul>
+</div>
 
+
+<div class="right">
+<p id="interval_message">
+</p>
+</div>
+
+<div class="full">
 <form id='myForm' name='myForm'>
 <label for='note1'>note1:</label>
 <input type='text' id='note1' name='note1' size=5>
@@ -78,7 +115,9 @@ style="border:1px solid #d3d3d3;">
 Your browser does not support the canvas element.
 </canvas><br />
 
+</div>
 
+</div>
 <script src='IntervalTool.js'></script>
 <script type="text/javascript" src="https://www.guitarland.com/javascripts/musicNotationCanvas.js"></script> 
 <!--
